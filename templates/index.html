@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aloevera Plant Disease Prediction</title>
+    <style>
+        /* General Styling */
+        body {
+            background-image: url("{{ url_for('static', filename='images/Background.jpg') }}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+            margin: 20px 0;
+            color: #28a745; /* Green color for title */
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #000; /* Black color for text */
+            margin: 10px auto;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        /* Plant Cards */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .plant-card {
+            background: linear-gradient(to bottom, #28a745, #218838);
+            border-radius: 15px;
+            width: 220px;
+            height: 300px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transform: scale(1);
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+            color: #fff;
+        }
+
+        .plant-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .plant-card img {
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+        }
+
+        .plant-title {
+            padding: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Prediction Form */
+        .upload-section {
+            display: none;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .upload-section h2 {
+            font-size: 2rem;
+            color: #000; /* Black color for prediction form heading */
+        }
+
+        .file-input {
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 2px solid #28a745;
+            outline: none;
+            width: 80%;
+        }
+
+        .file-input:focus {
+            border-color: #218838;
+        }
+
+        .upload-button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .upload-button:hover {
+            background-color: #218838;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        video {
+            width: 80%;
+            border-radius: 10px;
+            margin: 20px auto;
+        }
+
+        canvas {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Aloevera Plant Disease Prediction</h1>
+    <p class="description">
+        Identify diseases in medicinal plants with a single click! Choose a plant below to upload its image and get a quick diagnosis. 
+    </p>
+
+    <div class="container">
+        <div class="plant-card" onclick="showPredictionForm('Aloe Vera')">
+            <img src="{{ url_for('static', filename='images/Aloe_Vera.jpg') }}" alt="Aloe Vera">
+            <p class="plant-title">Aloe Vera</p>
+        </div>
+        
+    </div>
+
+    <div id="prediction-form" class="upload-section">
+        <h2 id="plant-name"></h2>
+        <form method="POST" action="/predict" enctype="multipart/form-data">
+            <input type="hidden" id="plant-type" name="plant_type">
+            <input type="file" class="file-input" name="image" accept="image/*">
+            <br>
+            <button type="submit" class="upload-button">Predict Disease</button>
+        </form>
+    </div>
+
+    <footer>
+        © Narayan Sabale. All rights reserved.
+    </footer>
+
+    <script>
+        function showPredictionForm(plant) {
+            document.getElementById('prediction-form').style.display = 'block';
+            document.getElementById('plant-name').innerText = `${plant} Disease Prediction`;
+            document.getElementById('plant-type').value = plant;
+        }
+
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Access the user's camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing webcam:', error);
+            });
+
+        function captureImage() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the captured image to a data URL
+            const imageData = canvas.toDataURL('image/png');
+
+            // You can now send this data to the server for prediction
+            console.log('Captured image:', imageData);
+        }
+    </script>
+</body>
+</html>

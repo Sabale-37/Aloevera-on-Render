@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+        integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+
+    <title>🌿 Aloe Vera Disease Prediction 🌿</title>
+
+    <style>
+         {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('{{ url_for('static', filename='images/Background.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+            color: #155724;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+            color: #1b5e20;
+        }
+
+        h6 {
+            font-size: 1rem;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .border img {
+            border-radius: 15px;
+            border: 3px solid #1d8348;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .details {
+            background-color: #f9fbe7;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #c8e6c9;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #1b5e20;
+            border-color: #1b5e20;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #388e3c;
+            border-color: #388e3c;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <div>
+        <h1>🌟 Predict Disease & Get Cure 🌟</h1>
+    </div>
+
+    <br>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+        <div class="row mb-5">
+            <!-- Left Column: Uploaded Image -->
+            <div class="col-md-6 text-center">
+                <div class="border">
+                    <!-- Display the user-uploaded image dynamically -->
+                    <img src="{{ user_image }}" alt="Uploaded Image" style="width:100%; max-width: 500px; height:auto;">
+                </div>
+                <h4 class="mt-3" style="font-size: 1.2rem;">📸 Your uploaded image</h4>
+            </div>
+
+            <!-- Right Column: Prediction and Treatment -->
+            <div class="col-md-6">
+                <!-- Prediction Output -->
+                <div>
+                    <h1 style="padding: 15px; background-color: #155724; color: white;"
+                        class="text-center mb-4 content-h1 rounded">
+                        {{ pred_output }}
+                    </h1>
+                </div>
+
+                <!-- Collapsible Sections -->
+                <div class="details">
+                    <h4>🌿 Learn More:</h4>
+                    <div id="accordion">
+
+                        <!-- Section 1: Aloe Vera Applications -->
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link text-dark collapsed" data-toggle="collapse"
+                                        data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        🌱 Uses & Applications of Aloe Vera
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    🌟 Skincare: Aloe vera is widely used in moisturizers and to soothe sunburns.<br>
+                                    💧 Hydration:It helps maintain skin hydration and elasticity.<br>
+                                    🍹 Health Drinks: Aloe vera juice boosts digestion and immunity.<br>
+                                    🌸 Haircare: Promotes healthy scalp and shiny hair.<br>
+                                    🌿 Wound Healing: Speeds up healing of minor cuts and burns.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Additional Tips -->
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link text-dark collapsed" data-toggle="collapse"
+                                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        💡 Extra Tips for Aloe Vera Care
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                data-parent="#accordion">
+                                <div class="card-body">
+                                    ✅ Place your plant in indirect sunlight for best growth.<br>
+                                    🪴 Use well-draining soil to prevent root rot.<br>
+                                    💧 Water the plant sparingly to avoid overwatering.<br>
+                                    🌱 Repot the aloe vera every 1-2 years for optimal growth.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Return to Home Button -->
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('home') }}" class="btn btn-primary">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS & Popper JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
